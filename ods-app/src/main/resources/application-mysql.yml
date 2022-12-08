@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    #    schema: classpath:form-schema.sql
+    #    data: classpath:form-data.sql
+    hikari:
+      maximum-pool-size: 100
+      minimum-idle: 50
+      connectionTimeout: 6000
+      connection-test-query: select 1
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://192.168.1.60:3306/dows_ods?serverTimezone=GMT%2B8&autoReconnect=true&allowMultiQueries=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: root
+    password: root
