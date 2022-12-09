@@ -1,5 +1,6 @@
 spring:
   datasource:
+    name: odsDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
     #    schema: classpath:form-schema.sql
@@ -9,6 +10,8 @@ spring:
       minimum-idle: 50
       connectionTimeout: 6000
       connection-test-query: select 1
+
+
 
 ---
 spring:

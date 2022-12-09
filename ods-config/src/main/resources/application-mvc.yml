@@ -1,0 +1,38 @@
+#spring:
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
+---
+#开发环境
+spring:
+  config:
+    activate:
+      on-profile: dev
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+---
+#开发环境
+spring:
+  config:
+    activate:
+      on-profile: sit
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+
+
+---
+#开发环境
+spring:
+  config:
+    activate:
+      on-profile: prd
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
