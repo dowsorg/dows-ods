@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -74,5 +75,16 @@ public class SchoolInstanceBiz {
     @Transactional(rollbackFor = Exception.class)
     public void batchRemoveSchoolByIds(Set<Long> ids) {
         schoolInstanceService.removeByIds(ids);
+    }
+
+    /**
+     * 根据ID查询学校实例
+     */
+    public SchoolInstance getSchoolInstanceById(String id) {
+        SchoolInstance schoolInstance = schoolInstanceService.getById(id);
+        if (Objects.isNull(schoolInstance)) {
+            throw new SchoolInstanceException("使用的学校实例不存在");
+        }
+        return schoolInstance;
     }
 }

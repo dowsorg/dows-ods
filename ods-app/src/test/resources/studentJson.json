@@ -1,0 +1,63 @@
+{
+  "code":94,
+  "data":{
+    "records":[
+      {
+        "XH":"10001",
+        "XM":"张三",
+        "XB":"男",
+        "BH":"1000",
+        "BJMC":"终极一班",
+        "ZYH":"quis dolore consequat commodo",
+        "ZYMC":"dolor labore",
+        "DWH":"incididunt eu officia ullamco esse",
+        "DWMC":"nisi enim",
+        "XSLB":"nulla ut",
+        "RXNY":"ad in proident sint irure"
+      },
+      {
+        "XH":"10002",
+        "XM":"王娜",
+        "XB":"女",
+        "BH":"1000",
+        "BJMC":"终极一班",
+        "ZYH":"quis dolore consequat commodo",
+        "ZYMC":"dolor labore",
+        "DWH":"incididunt eu officia ullamco esse",
+        "DWMC":"nisi enim",
+        "XSLB":"nulla ut",
+        "RXNY":"ad in proident sint irure"
+      },{
+        "XH":"10003",
+        "XM":"李四",
+        "XB":"男",
+        "BH":"1001",
+        "BJMC":"终极二班",
+        "ZYH":"quis dolore consequat commodo",
+        "ZYMC":"dolor labore",
+        "DWH":"incididunt eu officia ullamco esse",
+        "DWMC":"nisi enim",
+        "XSLB":"nulla ut",
+        "RXNY":"ad in proident sint irure"
+      },{
+        "XH":"10004",
+        "XM":"王五",
+        "XB":"男",
+        "BH":"1002",
+        "BJMC":"终极三班",
+        "ZYH":"quis dolore consequat commodo",
+        "ZYMC":"dolor labore",
+        "DWH":"incididunt eu officia ullamco esse",
+        "DWMC":"nisi enim",
+        "XSLB":"nulla ut",
+        "RXNY":"ad in proident sint irure"
+      }
+    ],
+    "total":57,
+    "page":75,
+    "pages":36,
+    "rows":15
+  },
+  "success":false,
+  "msg":"do labore sunt irure"
+}
