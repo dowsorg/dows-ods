@@ -22,6 +22,7 @@
         <module>ods-rest</module>
         <module>ods-app</module>
         <module>ods-boot</module>
+        <module>ods-config</module>
     </modules>
 
 
