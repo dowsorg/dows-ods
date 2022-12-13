@@ -9,6 +9,9 @@ import org.springframework.util.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 三方请求工具类
+ */
 public class HttpManager {
     /**
      * 保存该项目支持的http类型

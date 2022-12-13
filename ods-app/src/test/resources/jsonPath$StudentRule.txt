@@ -1,1 +1,1 @@
-$.data.records|[{"table":"user","field":{"XH":"code","XM":"name","XB":"sex"},"primary_key":["code"]},{"table":"class_member","field":{"XH":"userId","BH":"classId"},"primary_key":["userId","classId"]}]
+$.data.records|[{"table":"user","fieldConfig":{"XH":"code","XM":"name","XB":"sex"},"primary_key":["code"],"role":["student"]},{"table":"class_member","fieldConfig":{"XH":"userId","BH":"classId"},"primary_key":["userId","classId"]}]

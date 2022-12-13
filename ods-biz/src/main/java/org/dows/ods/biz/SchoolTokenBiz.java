@@ -37,7 +37,7 @@ public class SchoolTokenBiz {
     }
 
     // 查询学校下所有Token
-    public List<SchoolToken> getSchoolTokenBySchool(String schoolId) {
+    public List<SchoolToken> getSchoolTokensBySchool(String schoolId) {
         return schoolTokenService.lambdaQuery()
             .eq(SchoolToken::getSchoolId, schoolId)
             .list();

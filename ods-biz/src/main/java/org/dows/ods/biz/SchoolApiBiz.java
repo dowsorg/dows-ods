@@ -13,7 +13,7 @@ public class SchoolApiBiz {
     //创建学校Api
     public void createSchoolApi(SchoolApiCreateVO createVO) {
         
-        // 该学校内 接口—+请求方式的组合唯一性
+        // 该学校内 接口url+请求方式的组合唯一性
 
     }
 }

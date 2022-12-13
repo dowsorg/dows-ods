@@ -1,0 +1,21 @@
+{
+  "tableName":"user",
+  "fields":[
+    {
+      "jsonFieldName":"XB",
+      "tableFieldName":"sex",
+      "values":[
+        {
+          "jsonFieldValue":"男",
+          "tableFieldValue":1
+        },
+        {
+          "jsonFieldValue":"女",
+          "tableFieldValue":0
+        }
+      ],
+      "defaultValue":0,
+      "primaryKeyTag":false
+    }
+  ]
+}
