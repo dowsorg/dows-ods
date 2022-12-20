@@ -27,9 +27,14 @@ public class SchoolTokenBiz {
 
     //创建学校获取token的途径
     public void createSchoolToken(SchoolTokenCreateVO createVO) throws BizException {
-        SchoolInstance schoolInstance = schoolInstanceService.getById(createVO.getSchoolId());
+        String schoolId = createVO.getSchoolId();
+        SchoolInstance schoolInstance = schoolInstanceService.getById(schoolId);
         if (Objects.isNull(schoolInstance)) {
             throw new SchoolInstanceException("使用的学校实例不存在");
+        }
+        long count = schoolTokenService.lambdaQuery().eq(SchoolToken::getSchoolId, schoolId).count();
+        if(count>0){
+            throw new BizException("当前学校Auth Token已存在");
         }
         SchoolToken token = new SchoolToken();
         BeanUtils.copyProperties(createVO, token);
@@ -41,6 +46,14 @@ public class SchoolTokenBiz {
         return schoolTokenService.lambdaQuery()
             .eq(SchoolToken::getSchoolId, schoolId)
             .list();
+    }
+
+    public SchoolToken getSchoolTokenById(String id){
+        SchoolToken schoolToken = schoolTokenService.getById(id);
+        if (Objects.isNull(schoolToken)) {
+            throw new SchoolInstanceException("使用的学校token不存在");
+        }
+        return schoolToken;
     }
 
     // 根据ID删除某一批Token获取方式

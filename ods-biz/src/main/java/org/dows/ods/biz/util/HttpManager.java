@@ -1,8 +1,10 @@
 package org.dows.ods.biz.util;
 
+import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
+import cn.hutool.json.JSONUtil;
 import org.dows.framework.api.exceptions.BizException;
 import org.springframework.util.StringUtils;
 
@@ -25,17 +27,30 @@ public class HttpManager {
         }
     }
 
-    public static HttpResponse requestForResponse(String method, String url, Map<String, Object> paramMap,
+    public static HttpResponse requestForResponse(HttpRequest request) {
+        return request.execute();
+    }
+
+    public static HttpResponse requestForResponse(String method, String url, String headerParamStr,String bodyParamStr,
         int timeout) {
         if (StringUtils.hasText(method) && StringUtils.hasText(url)) {
             if (!SUPPORT_METHODS.keySet().contains(method)) {
                 throw new BizException("不支持该请求类型");
             }
             return HttpUtil.createRequest(SUPPORT_METHODS.get(method), url)
-                .form(paramMap)
+                .header(JSONUtil.toBean(headerParamStr,HashMap.class))
+                .body(bodyParamStr)
                 .timeout(timeout)
                 .execute();
         }
         throw new BizException("请求类型或请求URL为空，非法参数");
+    }
+
+    // 输入请求方式验证系统是否支持
+    public static boolean validateHttpMethod(String httpMethod){
+        if(StringUtils.hasText(httpMethod)){
+            return SUPPORT_METHODS.containsKey(httpMethod.toUpperCase());
+        }
+        return false;
     }
 }

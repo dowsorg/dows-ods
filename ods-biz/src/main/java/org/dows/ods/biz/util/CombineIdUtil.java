@@ -2,7 +2,6 @@ package org.dows.ods.biz.util;
 
 import org.springframework.util.StringUtils;
 
-import java.util.LinkedHashSet;
 import java.util.StringJoiner;
 
 /**
@@ -11,8 +10,6 @@ import java.util.StringJoiner;
 public class CombineIdUtil {
     /*组合Id的拼接和解析的分隔符*/
     private static final String COMBINE_ID_DELIMITER = "+";
-
-    /*输入不同ID获得组合ID*/
 
     /*从组合ID中接续出表名*/
     public static String getTableNameFromCombineId(final String combineId) {
@@ -26,7 +23,7 @@ public class CombineIdUtil {
     /**
      * 输入前缀key和其他Id以"+"按顺序拼接来获取组合ID
      * */
-    public static String generateCombineId(String prefixKey, LinkedHashSet<Object> otherKeys){
+    public static String generateCombineId(String prefixKey, String ... otherKeys){
         StringJoiner combineIdBuilder = new StringJoiner(COMBINE_ID_DELIMITER);
         combineIdBuilder.add(prefixKey);
         for (Object key : otherKeys) {

@@ -48,11 +48,15 @@ public class SchoolToken implements CrudEntity {
     @ApiModelProperty("tokenApi")
     private String tokenApi;
 
-    @ApiModelProperty("json参数")
+    @ApiModelProperty(value = "json参数",notes = "可以转换成 Map<String,Object> 类型的 map")
     private String jsonParam;
 
     @ApiModelProperty("时间戳")
     private Date dt;
+
+    // TODO 解析结果集的规则字段
+    @ApiModelProperty(value = "从tokenApi请求结果解析出token的jsonPath")
+    private String tokenJsonPath;
 
     @JsonIgnore
     @TableLogic
