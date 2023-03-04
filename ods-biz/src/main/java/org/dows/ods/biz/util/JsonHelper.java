@@ -7,7 +7,7 @@ import cn.hutool.json.JSONUtil;
 import org.apache.commons.lang3.BooleanUtils;
 import org.dows.framework.api.exceptions.BizException;
 import org.dows.ods.bo.FieldConfig;
-import org.dows.ods.bo.JsonParse;
+import org.dows.ods.bo.JsonConfig;
 import org.dows.ods.bo.TableConfig;
 import org.dows.ods.bo.ValueConfig;
 import org.springframework.util.CollectionUtils;
@@ -20,16 +20,29 @@ import java.util.stream.Collectors;
 /**
  * 接口返回结果JSON的读取工具
  */
-public class JsonParseHelper {
+public class JsonHelper {
+
+    /**
+     * 将输入字符串转换为JsonParse对象
+     * */
+    public static JsonConfig parse$ValidateJsonConfig(String jsonStr){
+        JsonConfig jsonConfig = JSONUtil.toBean(jsonStr, JsonConfig.class);
+        if(Objects.isNull(jsonConfig)){
+            throw new BizException("解析规则处理失败");
+        }
+        // 调用验证功能
+        validateJsonConfig(jsonConfig);
+        return jsonConfig;
+    }
 
     /**
      * json规则的验证函数
      * */
-    public static void validate(JsonParse jsonParse)throws BizException{
-        if(!StringUtils.hasText(jsonParse.getJsonPath())){
+    public static void validateJsonConfig(JsonConfig jsonConfig)throws BizException{
+        if(!StringUtils.hasText(jsonConfig.getJsonPath())){
            throw new BizException("json中取结果的jsonPath必须填写");
         }
-        List<TableConfig> tableConfigs = jsonParse.getTableConfigs();
+        List<TableConfig> tableConfigs = jsonConfig.getTableConfigs();
         if(CollectionUtils.isEmpty(tableConfigs)){
             throw new BizException("json解析结果的对应的数据表规则必须填写");
         }
@@ -41,12 +54,11 @@ public class JsonParseHelper {
     /**
      * 将接口请求结果json字符串解析为Map<combineId,<field,value>> 类型的map
      * */
-    public static Map<String, Map<String, Object>> parseJson2TableFieldValueMap(String jsonStr, String jsonParseStr) {
-        JsonParse jsonParse = JSONUtil.toBean(jsonParseStr, JsonParse.class);
+    public static Map<String, Map<String, Object>> parseJson2TableFieldValueMap(String jsonStr, JsonConfig jsonConfig) {
         // <结果集定义> key:table_组合id
         Map<String, Map<String, Object>> tableCombineIdFieldValueMap = new HashMap<>();
-        JSONArray records = JSONUtil.getByPath(JSONUtil.parse(jsonStr), jsonParse.getJsonPath(), new JSONArray());
-        List<TableConfig> tableConfigRules = jsonParse.getTableConfigs();
+        JSONArray records = JSONUtil.getByPath(JSONUtil.parse(jsonStr), jsonConfig.getJsonPath(), new JSONArray());
+        List<TableConfig> tableConfigRules = jsonConfig.getTableConfigs();
         // 一个接口的返回结果可能需要多个表的解析规则
         for (int i = 0; i < records.size(); i++) {
             JSONObject jsonData = records.getJSONObject(i);
@@ -69,7 +81,7 @@ public class JsonParseHelper {
                     continue;
                 }
                 // 处理每条数据记录
-                Map<String, Object> targetFieldValueMap = new HashMap<>();
+                Map<String, Object> targetFieldValueMap = new LinkedHashMap<>();
                 // 收集为主键的字段值
                 LinkedHashSet<Object> primaryFieldValueSet = new LinkedHashSet<>();
                 for (Map.Entry<String, Object> entry : jsonData.entrySet()) {
@@ -119,8 +131,8 @@ public class JsonParseHelper {
                     targetFieldValueMap.put(fieldConfig.getTableFieldName(), defaultValue);
                 }
                 // 组合ID，形式类似 "tableName_primaryKey1_primaryKey2_..."
-                String combineTable$PrimaryFieldValueId = CombineIdUtil.generateCombineId(tableName, primaryFieldValueSet);
-                Map<String, Object> fieldValueMap = tableCombineIdFieldValueMap.computeIfAbsent(combineTable$PrimaryFieldValueId, s -> new HashMap<>());
+                String combineTable$PrimaryFieldValueId = CombineIdUtil.generateCombineId(tableName, primaryFieldValueSet.toArray(new String[0]));
+                Map<String, Object> fieldValueMap = tableCombineIdFieldValueMap.computeIfAbsent(combineTable$PrimaryFieldValueId, s -> new LinkedHashMap<>());
                 // 重叠的字段对应值覆盖，新的字段就新增
                 fieldValueMap.putAll(targetFieldValueMap);
             }

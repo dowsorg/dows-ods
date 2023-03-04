@@ -20,6 +20,11 @@ public class TableHelper {
         if(CollectionUtils.isEmpty(fieldConfigs)){
             throw new BizException("表的字段解析规则必须填写");
         }
+        // 表中必须存在被标记为主键的字段解析至少有一个
+        long count = fieldConfigs.stream().filter(e -> Boolean.TRUE.equals(e.getPrimaryKeyTag())).count();
+        if(count==0){
+            throw new BizException("数据表解析字段中至少指定一个主键字段");
+        }
         // 调用field的规则验证
         for (FieldConfig fieldConfig : fieldConfigs) {
             FieldHelper.validate(fieldConfig);

@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.dows.framework.crud.mybatis.CrudEntity;
+import org.dows.ods.bo.JsonConfig;
 
 import java.util.Date;
 
@@ -54,6 +55,9 @@ public class SchoolApi implements CrudEntity {
     @ApiModelProperty("接口描述")
     private String apiDescr;
 
+    /**
+     * <p>实际存放的是{@link JsonConfig} 结构的json字符串</p>
+     */
     @ApiModelProperty("提取的key[key1,key2,key3]")
     private String extractKey;
 

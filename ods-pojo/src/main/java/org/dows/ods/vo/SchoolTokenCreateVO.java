@@ -2,6 +2,7 @@ package org.dows.ods.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
  * 学校接口token
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SchoolTokenCreateVO {

@@ -20,7 +20,7 @@ public class FieldHelper {
             throw new BizException("数据表字段名必须填写");
         }
         // 默认值不可为空
-        if(!Objects.isNull(fieldConfig.getDefaultValue())){
+        if(Objects.isNull(fieldConfig.getDefaultValue())){
             throw new BizException("字段的默认值必须填写");
         }
         //是否是表的主键可以不填写；

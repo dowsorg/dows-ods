@@ -1,13 +1,13 @@
 {
   "jsonPath":"$.data.records",
-  "tables":[
+  "tableConfigs":[
     {
       "tableName":"user",
-      "fields":[
+      "fieldConfigs":[
         {
           "jsonFieldName":"XH",
           "tableFieldName":"code",
-          "values":[
+          "valueConfigs":[
 
           ],
           "defaultValue":0,
@@ -16,16 +16,15 @@
         {
           "jsonFieldName":"XM",
           "tableFieldName":"name",
-          "values":[
+          "valueConfigs":[
 
           ],
-          "defaultValue":"",
-          "你好": false
+          "defaultValue":""
         },
         {
           "jsonFieldName":"XB",
           "tableFieldName":"sex",
-          "values":[
+          "valueConfigs":[
             {
               "jsonFieldValue":"男",
               "tableFieldValue":1
@@ -41,7 +40,7 @@
         {
           "jsonFieldName":"",
           "tableFieldName":"admin",
-          "values":[
+          "valueConfigs":[
 
           ],
           "defaultValue":0,
@@ -50,7 +49,7 @@
         {
           "jsonFieldName":"",
           "tableFieldName":"teacher",
-          "values":[
+          "valueConfigs":[
 
           ],
           "defaultValue":0,
@@ -59,7 +58,7 @@
         {
           "jsonFieldName":"",
           "tableFieldName":"student",
-          "values":[
+          "valueConfigs":[
 
           ],
           "defaultValue":1,
@@ -70,7 +69,7 @@
     },
     {
       "tableName":"user_auth",
-      "fields":[
+      "fieldConfigs":[
         {
           "jsonFieldName":"XH",
           "tableFieldName":"userCode",
@@ -80,7 +79,7 @@
         {
           "jsonFieldName":"",
           "tableFieldName":"password",
-          "values":[
+          "valueConfigs":[
 
           ],
           "defaultValue":123456,
