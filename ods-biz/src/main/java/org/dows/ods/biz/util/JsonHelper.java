@@ -99,12 +99,12 @@ public class JsonHelper {
                         // 最终字段的值
                         Object targetValue = Objects.isNull(jsonValue) ? fieldConfig.getDefaultValue() : jsonValue;
                         List<ValueConfig> valueConfigMappings = fieldConfig.getValueConfigs();
-                        if (!Objects.isNull(jsonValue) && CollUtil.isNotEmpty(valueConfigMappings)) {
+                        if (Objects.nonNull(jsonValue) && CollUtil.isNotEmpty(valueConfigMappings)) {
                             // 接口请求结果中字段的值可能有更细的规则匹配
                             Map<Object, ValueConfig> fieldValueMap = valueConfigMappings.stream()
                                 .collect(Collectors.toMap(ValueConfig::getJsonFieldValue, Function.identity()));
                             ValueConfig valueConfig = fieldValueMap.get(jsonValue);
-                            if (!Objects.isNull(valueConfig)) {
+                            if (Objects.nonNull(valueConfig)) {
                                 targetValue = valueConfig.getTableFieldValue();
                             }
                         }
