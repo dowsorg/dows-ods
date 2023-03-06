@@ -1,0 +1,9 @@
+#默认可覆盖
+dows:
+  ods:
+    endpoint: http://ods.findsoft.com/upload
+    pointcut:
+      clazz: org.dows.gpm.Test
+      methods:
+        - dd
+        - ff

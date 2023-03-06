@@ -1,4 +1,4 @@
-package org.dows.ods.biz.exception;
+package org.dows.ods.api.exception;
 
 import org.dows.framework.api.StatusCode;
 import org.dows.framework.api.exceptions.BizException;

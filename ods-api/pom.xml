@@ -13,10 +13,13 @@
 
 
     <dependencies>
+
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>org.dows.framework</groupId>
+            <artifactId>framework-api</artifactId>
         </dependency>
+
+
     </dependencies>
 
 

@@ -23,6 +23,7 @@
         <module>ods-app</module>
         <module>ods-boot</module>
         <module>ods-config</module>
+        <module>ods-client</module>
     </modules>
 
 

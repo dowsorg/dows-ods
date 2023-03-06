@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dows.framework.api.exceptions.BizException;
-import org.dows.ods.biz.exception.SchoolInstanceException;
+import org.dows.ods.api.exception.SchoolInstanceException;
 import org.dows.ods.entity.SchoolInstance;
 import org.dows.ods.entity.SchoolToken;
 import org.dows.ods.service.SchoolInstanceService;
