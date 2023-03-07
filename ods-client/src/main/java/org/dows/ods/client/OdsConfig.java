@@ -4,12 +4,15 @@ package org.dows.ods.client;
 import lombok.Data;
 import org.dows.framework.api.util.YamlPropertySourceFactory;
 import org.dows.ods.channel.hnilab.HnIlabProperties;
+import org.dows.ods.channel.hnilab.HnilabConfig;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.NameMatchMethodPointcut;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 
 import java.util.List;
@@ -18,11 +21,12 @@ import java.util.stream.Collectors;
 @Data
 @PropertySource(value = "classpath:application-ods.yml", factory = YamlPropertySourceFactory.class)
 @EnableConfigurationProperties({OdsPointcutProperties.class})
+@Import(HnilabConfig.class)
 @Configuration
 public class OdsConfig {
 
     private final OdsPointcutProperties odsProperties;
-
+    private final HnilabConfig hnilabConfig;
     @Bean("odsPointcut")
     NameMatchMethodPointcut nameMatchMethodPointcut(){
         NameMatchMethodPointcut nameMatchMethodPointcut = new NameMatchMethodPointcut();
@@ -42,6 +46,7 @@ public class OdsConfig {
     @Bean("odsAroundMethod")
     AroundMethod aroundMethod(){
         AroundMethod aroundMethod = new AroundMethod(odsProperties);
+        aroundMethod.setHnilabConfig(hnilabConfig);
         return aroundMethod;
     }
 

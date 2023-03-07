@@ -25,12 +25,13 @@ import java.util.List;
 @Data
 @ConfigurationProperties("dows.ods.hnilab")
 public class HnIlabProperties {
+    private String env;
     private String appId;
     private String appSecret;
 
     private HnilabApi hnilabApi;
 
-    private Env env;
+    private List<Env> envs;
 
 
 
