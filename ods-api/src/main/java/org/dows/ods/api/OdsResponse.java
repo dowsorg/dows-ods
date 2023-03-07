@@ -20,8 +20,10 @@ public class OdsResponse {
     private String token;
     // 希望执行的方式： put：update/delete:delete/get:select/post:insert
     private String method;
-    // 希望执行的端点
-    private String endpoint;
+    // 通道
+    private String channel;
+//    // 希望执行的端点
+//    private String endpoint;
     // 业务数据
     private String bizJson;
 

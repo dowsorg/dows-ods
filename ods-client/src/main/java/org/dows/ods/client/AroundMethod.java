@@ -3,23 +3,22 @@ package org.dows.ods.client;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.dows.ods.api.ChannelConfig;
+import org.dows.ods.api.ChannelProperties;
 import org.dows.ods.api.OdsResponse;
+import org.dows.ods.api.ChannelSetting;
 import org.dows.ods.channel.hnilab.HnilabConfig;
 
 import java.util.Arrays;
+import java.util.Map;
 
 @Slf4j
 public class AroundMethod implements MethodInterceptor {
-    private OdsPointcutProperties odsProperties;
-    private HnilabConfig hnilabConfig;
-    public AroundMethod(OdsPointcutProperties odsProperties) {
-        this.odsProperties = odsProperties;
-    }
+    private Map<String, ChannelConfig> channelConfigMap;
 
-    public void setHnilabConfig(HnilabConfig hnilabConfig){
-        this.hnilabConfig = hnilabConfig;
+    public void setChannelConfig(Map<String, ChannelConfig> channelConfigMap) {
+        this.channelConfigMap = channelConfigMap;
     }
-
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
         log.info("around method before,method  name:{},method  arguments:{}" ,
@@ -35,11 +34,13 @@ public class AroundMethod implements MethodInterceptor {
             // todo 通过该端点上传数据
             String methodName = methodInvocation.getMethod().getName();
             // 该端点可能是 jdbc 也可能是 http
-            OdsPointcutProperties.Endpoint endpoint = odsProperties.getEndpoint(methodName);
-            if(endpoint != null){
-                // todo 后期可异步，先实现
-                OdsExecutor.exec(hnilabConfig.getHnIlabProperties().getEnv(),endpoint,odsResponse);
-            }
+            //OdsPointcutProperties.Endpoint endpoint = odsProperties.getEndpoint(methodName);
+            String channel = odsResponse.getChannel();
+
+            // todo 后期可异步，先实现channelProperties
+            ChannelConfig channelConfig = channelConfigMap.get(channel);
+
+            OdsExecutor.exec(channelConfig,odsResponse);
             log.info("around method : after ");
             return result;
         } catch (IllegalArgumentException e) {
@@ -47,4 +48,6 @@ public class AroundMethod implements MethodInterceptor {
             throw e;
         }
     }
+
+
 }

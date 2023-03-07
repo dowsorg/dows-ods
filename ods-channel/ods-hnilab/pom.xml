@@ -10,5 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ods-hnilab</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.dows.saas</groupId>
+            <artifactId>ods-api</artifactId>
+            <version>20220701-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 </project>
