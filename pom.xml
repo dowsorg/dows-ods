@@ -25,6 +25,7 @@
         <module>ods-config</module>
         <module>ods-client</module>
         <module>ods-channel</module>
+        <module>ods-demo</module>
     </modules>
 
 
