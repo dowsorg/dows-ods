@@ -3,6 +3,7 @@ package org.dows.ods.client;
 
 import lombok.Data;
 import org.dows.framework.api.util.YamlPropertySourceFactory;
+import org.dows.ods.channel.hnilab.HnIlabProperties;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.NameMatchMethodPointcut;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Data
 @PropertySource(value = "classpath:application-ods.yml", factory = YamlPropertySourceFactory.class)
-@EnableConfigurationProperties(OdsPointcutProperties.class)
+@EnableConfigurationProperties({OdsPointcutProperties.class})
 @Configuration
 public class OdsConfig {
 

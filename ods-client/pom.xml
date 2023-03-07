@@ -16,6 +16,12 @@
             <artifactId>ods-api</artifactId>
             <version>20220701-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.dows.saas</groupId>
+            <artifactId>ods-hnilab</artifactId>
+            <version>20220701-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 
