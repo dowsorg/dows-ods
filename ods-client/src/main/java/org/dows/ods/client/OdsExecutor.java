@@ -5,13 +5,16 @@ import org.dows.ods.api.OdsResponse;
 import org.dows.ods.channel.hnilab.HnilabApi;
 import org.dows.ods.channel.hnilab.HnilabConfig;
 
-public class OdsClient {
+public class OdsExecutor {
 
 
     public static Response exec(String env,OdsPointcutProperties.Endpoint endpoint, OdsResponse odsResponse) {
         // 根据环境获取对应的接口url
         HnilabApi hnilabApiUrl = HnilabConfig.getHnilabApiUrl(env);
 
+        String endpoint1 = odsResponse.getEndpoint();
+
+        //hnilabApiUrl.
         String type = endpoint.getType();
         // todo 执行jdbc 方式
         if (type.equals("jdbc")) {

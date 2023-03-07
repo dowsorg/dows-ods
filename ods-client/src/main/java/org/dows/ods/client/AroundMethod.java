@@ -5,10 +5,8 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.dows.ods.api.OdsResponse;
 import org.dows.ods.channel.hnilab.HnilabConfig;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Slf4j
 public class AroundMethod implements MethodInterceptor {
@@ -40,7 +38,7 @@ public class AroundMethod implements MethodInterceptor {
             OdsPointcutProperties.Endpoint endpoint = odsProperties.getEndpoint(methodName);
             if(endpoint != null){
                 // todo 后期可异步，先实现
-                OdsClient.exec(hnilabConfig.getHnIlabProperties().getEnv(),endpoint,odsResponse);
+                OdsExecutor.exec(hnilabConfig.getHnIlabProperties().getEnv(),endpoint,odsResponse);
             }
             log.info("around method : after ");
             return result;

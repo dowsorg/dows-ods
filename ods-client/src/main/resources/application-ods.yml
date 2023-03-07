@@ -4,7 +4,7 @@ dows:
     endpoints:
       - id: hlhttp
         type: http
-        enable:
+        enable: false
         datasource:
           host: http://ods.findsoft.com/upload
           port:
@@ -12,7 +12,7 @@ dows:
           pwd:
       - id: hljdbc
         type: jdbc
-        enable:
+        enable: true
         datasource:
           host:
           port:
@@ -21,6 +21,6 @@ dows:
     pointcuts:
       - clazz: org.dows.gpm.Test
         methods:
-          - enable:
+          - enable: true
             name: dd
-            endpointId: ff
+            endpointId: hljdbc

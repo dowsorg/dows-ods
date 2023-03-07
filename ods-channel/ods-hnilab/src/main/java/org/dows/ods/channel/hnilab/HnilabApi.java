@@ -8,4 +8,12 @@ public class HnilabApi {
     private String getToken;
     private String getUserInfo;
     private String saveOperateRecordData;
+
+
+
+    public String getApiByName(String name){
+       // HnilabApi
+        return null;
+    }
+
 }
