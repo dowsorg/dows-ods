@@ -23,11 +23,7 @@ public class HnilabConfig {
     private static final Map<String,HnilabApi> hnilabApiMap = new HashMap<>();
     @PostConstruct
     public void init() {
-        Field[] declaredFields = HnilabApi.class.getDeclaredFields();
-        Map<String, Field> fieldMap = new HashMap<>();
-        for (Field declaredField : declaredFields) {
-            fieldMap.put(declaredField.getName(), declaredField);
-        }
+        Map<String, Field> fieldMap = HnilabApi.getFieldMap();
         List<HnIlabProperties.Env> envs = hnIlabProperties.getEnvs();
         for (HnIlabProperties.Env env : envs) {
             HnilabApi hnilabApi = extracted(fieldMap, env.getHost());

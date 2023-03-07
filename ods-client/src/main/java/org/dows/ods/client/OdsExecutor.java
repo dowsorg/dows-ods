@@ -9,12 +9,13 @@ public class OdsExecutor {
 
 
     public static Response exec(String env,OdsPointcutProperties.Endpoint endpoint, OdsResponse odsResponse) {
-        // 根据环境获取对应的接口url
+        // 根据环境获取对应的接口对象
         HnilabApi hnilabApiUrl = HnilabConfig.getHnilabApiUrl(env);
+        // 获取接口uri 有可能是http 也有可能是 jdbc
+        String apiUri = hnilabApiUrl.getApiUriByMethodName(odsResponse.getMethod());
 
         String endpoint1 = odsResponse.getEndpoint();
 
-        //hnilabApiUrl.
         String type = endpoint.getType();
         // todo 执行jdbc 方式
         if (type.equals("jdbc")) {
