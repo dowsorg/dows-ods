@@ -18,6 +18,8 @@ public class OdsResponse {
     private String userName;
     // 数据库密码
     private String pwd;
+    // restMethod put：update/delete:delete/get:select/post:insert
+    private String method;
     // 业务数据
     private String bizJson;
 

@@ -24,6 +24,7 @@
         <module>ods-boot</module>
         <module>ods-config</module>
         <module>ods-client</module>
+        <module>ods-channel</module>
     </modules>
 
 

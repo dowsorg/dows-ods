@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @PropertySource(value = "classpath:application-ods.yml", factory = YamlPropertySourceFactory.class)
@@ -24,9 +25,16 @@ public class OdsConfig {
     @Bean("odsPointcut")
     NameMatchMethodPointcut nameMatchMethodPointcut(){
         NameMatchMethodPointcut nameMatchMethodPointcut = new NameMatchMethodPointcut();
-        OdsPointcutProperties.Pointcut pointcut = odsProperties.getPointcut();
-        nameMatchMethodPointcut.setClassFilter(clazz -> clazz.equals(pointcut.getClazz()));
-        nameMatchMethodPointcut.setMappedNames(pointcut.getMethods());
+        List<OdsPointcutProperties.Pointcut> pointcuts = odsProperties.getPointcuts();
+        for (OdsPointcutProperties.Pointcut pointcut : pointcuts) {
+            // todo 这里需要重写ClassFilter
+            nameMatchMethodPointcut.setClassFilter(clazz -> clazz.equals(pointcut.getClazz()));
+            List<OdsPointcutProperties.Method> methods = pointcut.getMethods();
+            List<String> collect = methods.stream().map(OdsPointcutProperties.Method::getName).collect(Collectors.toList());
+            for (String s : collect) {
+                nameMatchMethodPointcut.addMethodName(s);
+            }
+        }
         return nameMatchMethodPointcut;
     }
 

@@ -7,6 +7,7 @@ import org.dows.ods.api.OdsResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 public class AroundMethod implements MethodInterceptor {
@@ -17,17 +18,24 @@ public class AroundMethod implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-        log.info("method  name:" + methodInvocation.getMethod().getName());
-        log.info("method  arguments" + Arrays.toString(methodInvocation.getArguments()));
-        log.info("around  method : before ");
+        log.info("around method before,method  name:{},method  arguments:{}" ,
+                methodInvocation.getMethod().getName()
+                ,Arrays.toString(methodInvocation.getArguments()));
         try {
             // 获取数据
             Object result = methodInvocation.proceed();
-            // todo 上报处理
+            // todo 上报处理 OdsResponse 返回值应为该类型，if 判断一下，如果是可强转
             Class<?> returnType = methodInvocation.getMethod().getReturnType();
-            // 通过该断点上传数据
-            String endpoint = odsProperties.getEndpoint();
+            OdsResponse odsResponse = (OdsResponse)result;
 
+            // todo 通过该断点上传数据
+            String methodName = methodInvocation.getMethod().getName();
+            // 该端点可能是 jdbc 也可能是 http
+            OdsPointcutProperties.Endpoint endpoint = odsProperties.getEndpoint(methodName);
+            if(endpoint != null){
+                // todo 后期可异步，先实现
+                OdsClient.exec(endpoint,odsResponse);
+            }
             log.info("around method : after ");
             return result;
         } catch (IllegalArgumentException e) {

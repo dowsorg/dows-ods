@@ -1,9 +1,26 @@
 #默认可覆盖
 dows:
   ods:
-    endpoint: http://ods.findsoft.com/upload
-    pointcut:
-      clazz: org.dows.gpm.Test
-      methods:
-        - dd
-        - ff
+    endpoints:
+      - id: hlhttp
+        type: http
+        enable:
+        datasource:
+          host: http://ods.findsoft.com/upload
+          port:
+          username:
+          pwd:
+      - id: hljdbc
+        type: jdbc
+        enable:
+        datasource:
+          host:
+          port:
+          username:
+          pwd:
+    pointcuts:
+      - clazz: org.dows.gpm.Test
+        methods:
+          - enable:
+            name: dd
+            endpointId: ff
