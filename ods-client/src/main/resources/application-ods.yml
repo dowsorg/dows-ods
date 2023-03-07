@@ -1,23 +1,6 @@
 #默认可覆盖
 dows:
   ods:
-#    endpoints:
-#      - id: hlhttp
-#        type: http
-#        enable: false
-#        datasource:
-#          host: http://ods.findsoft.com/upload
-#          port:
-#          username:
-#          pwd:
-#      - id: hljdbc
-#        type: jdbc
-#        enable: true
-#        datasource:
-#          host:
-#          port:
-#          username:
-#          pwd:
     pointcuts:
       - clazz: org.dows.gpm.Test
         methods:
@@ -33,7 +16,7 @@ dows:
         appId: 3dfe80096e234a3798d05d3f0bd6610e01a1e53b855a4e0b94c36edec31b5217
         appSecret: 6CE2715036F894F8F48BD85C1335D74D0083A36133C6282B26610E2DB7ED89A3A08F286AF4FF5E620CAE48B8CCD09B5B3657E364087C2F22285BEDDE00C8A95799C46201162E8808
         apis:
-          checkToken: /api/OpenData/CheckToken
+          checkToken: get:/api/OpenData/CheckToken
           getToken: /api/OpenData/GetToken
           getUserInfo: /api/OpenData/GetUserInfo
           saveOperateRecordData: /api/OpenData/SaveOperateRecordData
@@ -48,3 +31,26 @@ dows:
             port:
             username:
             token:
+
+      - id: lnilab
+        type: jdbc
+        enable: false
+        env: test
+        appId: 3dfe80096e234a3798d05d3f0bd6610e01a1e53b855a4e0b94c36edec31b5217
+        appSecret: 6CE2715036F894F8F48BD85C1335D74D0083A36133C6282B26610E2DB7ED89A3A08F286AF4FF5E620CAE48B8CCD09B5B3657E364087C2F22285BEDDE00C8A95799C46201162E8808
+        apis:
+          checkToken: insert:table1
+          getToken: update:table2
+          getUserInfo: delete:table3
+          saveOperateRecordData: select:table4
+        envs:
+          - name: test
+            host: jdbc:mysql://192.168.1.60:3306/dows_ods?serverTimezone=GMT%2B8&autoReconnect=true&allowMultiQueries=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false
+            port: 3306
+            username: root
+            token: root
+          - name: prd
+            host: jdbc:mysql://192.168.1.61:3306/dows_ods?serverTimezone=GMT%2B8&autoReconnect=true&allowMultiQueries=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false
+            port: 3306
+            username: root
+            token: root
