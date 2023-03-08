@@ -44,19 +44,28 @@ public class AroundMethod implements MethodInterceptor {
             String methodName = methodInvocation.getMethod().getName();
             String fullMethodName = declaringClass+"."+methodName;
             ChannelProperties.Pointcut pointcut = pointcutMap.get(fullMethodName);
-
             ChannelProperties.Method method = pointcut.getMethod(methodName);
 
+
+            String formMethodKey = method.getKey(method.getFormMethod());
+            String toMethodKey = method.getKey(method.getToMethod());
+
+            ChannelApi formChannelApi = channelEnvApiMap.get(formMethodKey);
+            ChannelApi toChannelApi = channelEnvApiMap.get(toMethodKey);
+
+            String formUrl = formChannelApi.getApiUriByMethodName(method.getVal(method.getFormMethod()));
+            String toUrl = toChannelApi.getApiUriByMethodName(method.getVal(method.getToMethod()));
+
             // // todo 通过该端点上传数据 该端点可能是 jdbc 也可能是 http
-            String channel = method.getEndpointId();
+            //String channel = method.getEndpointId();
             // todo 后期可异步，先实现channelProperties
             //ChannelConfig channelConfig = channelConfigMap.get(channel);
 
-            ChannelSetting channelSetting = channelSettingMap.get(channel);
+            //ChannelSetting channelSetting = channelSettingMap.get(channel);
 
-            ChannelApi channelApi = channelEnvApiMap.get(channelSetting.getEnv() + ":" + channelSetting.getId());
+            //ChannelApi channelApi = channelEnvApiMap.get(channelSetting.getEnv() + ":" + channelSetting.getId());
 
-            OdsExecutor.exec(method,channelApi,odsResponse);
+            //OdsExecutor.exec(method,channelApi,odsResponse);
             log.info("around method : after ");
             return result;
         } catch (IllegalArgumentException e) {

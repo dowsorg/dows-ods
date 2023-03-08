@@ -22,12 +22,16 @@
             <artifactId>ods-hnilab</artifactId>
             <version>20220701-SNAPSHOT</version>
         </dependency>
-
         <dependency>
-            <groupId>org.dows.saas</groupId>
-            <artifactId>ods-biz</artifactId>
-            <version>20220701-SNAPSHOT</version>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
         </dependency>
+
+        <!--        <dependency>
+                    <groupId>org.dows.saas</groupId>
+                    <artifactId>ods-biz</artifactId>
+                    <version>20220701-SNAPSHOT</version>
+                </dependency>-->
     </dependencies>
 
 

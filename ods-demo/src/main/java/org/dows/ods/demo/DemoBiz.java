@@ -28,6 +28,6 @@ public class DemoBiz {
         odsResponse.setBizJson(bizJson.toString());
 
 
-        return null;
+        return odsResponse;
     }
 }

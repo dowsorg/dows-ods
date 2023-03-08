@@ -9,6 +9,7 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.NameMatchMethodPointcut;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -23,8 +24,8 @@ import java.util.stream.Collectors;
 
 @Data
 @PropertySource(value = "classpath:application-ods.yml", factory = YamlPropertySourceFactory.class)
-//@EnableConfigurationProperties({ChannelProperties.class})
-@Import(HnilabConfig.class)
+@EnableConfigurationProperties({ChannelProperties.class})
+//@Import(HnilabConfig.class)
 @Configuration
 public class OdsConfig {
 
@@ -32,22 +33,22 @@ public class OdsConfig {
     private final ChannelProperties channelProperties;
 
     // 端点通道对应的通道配置 key:端点名，值端点对应的配置
-    private final Map<String, ChannelSetting> channelSettingMap = new HashMap<>();
+    //private final Map<String, ChannelSetting> channelSettingMap = new HashMap<>();
     private final Map<String, ChannelApi> channelEnvApiMap = new HashMap<>();
     private final Map<String, ChannelProperties.Pointcut> pointcutMap = new HashMap<>();
     @PostConstruct
     public void init(){
-        for (ChannelSetting channelSetting : channelProperties.getChannelSettings()) {
-            channelSettingMap.put(channelSetting.getId(),channelSetting);
+        for (ChannelSetting channelSetting : channelProperties.getEndpoints()) {
+            //channelSettingMap.put(channelSetting.getId(),channelSetting);
             ChannelConfig channelConfig = channelConfigMap.get(channelSetting.getId());
-            if(channelConfig== null){
+            if(channelConfig == null){
                 continue;
             }
             List<ChannelEnv> envs = channelSetting.getEnvs();
             for (ChannelEnv env : envs) {
                 // 创建不同环境的 channelApi
                 ChannelApi channelApi = extracted(channelSetting, channelConfig, env);
-                channelEnvApiMap.put(env.getName() + ":" + channelConfig.getChannelName(), channelApi);
+                channelEnvApiMap.put(channelSetting.getKey(env.getName()), channelApi);
             }
         }
 
@@ -79,14 +80,19 @@ public class OdsConfig {
 
         // 组装
         apis.forEach((k,v)->{
-            String method = channelSetting.getType() + "://" + k;
+            //String method = channelSetting.getType() + "://" + k;
             Field field1 = fieldMap.get(k);
             try {
                 if(field1 != null) {
                     // 原始uri
                     String orgUri = apis.get(k);
+                    // todo 处理
+                    String[] split = orgUri.split(":");
+                    if(split.length == 2){
+                        orgUri= split[1];
+                    }
                     // 组装完成
-                    String url = env.getHost() + orgUri + "?appId = " + appId + "&appSecret = " + appSecret;
+                    String url = env.getHost() + orgUri + "?appId=" + appId + "&appSecret=" + appSecret;
                     field1.setAccessible(true);
                     // 动态赋值
                     field1.set(channelApi, url);
@@ -96,40 +102,18 @@ public class OdsConfig {
             }
         });
         return  channelApi;
-
-//        Map<String, ChannelSetting> channels = channelProperties.getChannels();
-//        ChannelSetting channelSetting = channels.get(channel);
-//        HnilabApi hnilabApi = new HnilabApi();
-//        Map<String, String> apis = channelSetting.getApis();
-        //ChannelApi hnilabApi = channelSetting.getChannelApi();
-//        String appId = channelSetting.getAppId();
-//        String appSecret = channelSetting.getAppSecret();
-//        Set<String> fieldNames = fieldMap.keySet();
-//        for (String field : fieldNames) {
-//            Field field1 = fieldMap.get(field);
-//            try {
-//                String uri = apis.get(field);
-//                String url = host + uri + "?appId = " + appId + "&appSecret = " + appSecret;
-//                field1.setAccessible(true);
-//                // 动态修改
-//                field1.set(hnilabApi, url);
-//            } catch (IllegalAccessException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//        return hnilabApi;
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    @ConfigurationProperties("dows.ods")
-    public ChannelProperties channelProperties(){
-        return new ChannelProperties();
-    }
+//    @Bean
+//    @ConditionalOnMissingBean
+//    @ConfigurationProperties("dows.ods")
+//    public ChannelProperties channelProperties(){
+//        return new ChannelProperties();
+//    }
     @Bean("odsPointcut")
     NameMatchMethodPointcut nameMatchMethodPointcut(){
         NameMatchMethodPointcut nameMatchMethodPointcut = new NameMatchMethodPointcut();
-        List<ChannelProperties.Pointcut> pointcuts = channelProperties().getPointcuts();
+        List<ChannelProperties.Pointcut> pointcuts = channelProperties.getPointcuts();
         for (ChannelProperties.Pointcut pointcut : pointcuts) {
             List<ChannelProperties.Method> methods = pointcut.getMethods();
             List<String> collect = methods.stream().map(ChannelProperties.Method::getName).collect(Collectors.toList());
@@ -139,7 +123,7 @@ public class OdsConfig {
         }
         // todo 这里需要重写ClassFilter
         nameMatchMethodPointcut.setClassFilter(clazz -> {
-            List<Class> collect = channelProperties().getPointcuts().stream()
+            List<Class> collect = channelProperties.getPointcuts().stream()
                     .map(ChannelProperties.Pointcut::getClazz).collect(Collectors.toList());
             if(collect.contains(clazz)){
                 return true;

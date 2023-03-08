@@ -6,16 +6,16 @@ dows:
         methods:
           - enable: true
             name: completeExp
-            formMethod: rest://getExperimentRestult
-            toMethod: jdbc://saveOperateRecordData
-            endpointId: hnilab
+            formMethod: findsoft:jdbc://getExperimentRestult
+            toMethod: hnilab:rest://saveOperateRecordData
+#            endpointId: hnilab
+            env: prd
     # 通道名端点配置
     endpoints:
       - id: hnilab
-        channel: hnilab
         type: rest
+        channel: hnilab
         enable: false
-        env: test
         appId: 3dfe80096e234a3798d05d3f0bd6610e01a1e53b855a4e0b94c36edec31b5217
         appSecret: 6CE2715036F894F8F48BD85C1335D74D0083A36133C6282B26610E2DB7ED89A3A08F286AF4FF5E620CAE48B8CCD09B5B3657E364087C2F22285BEDDE00C8A95799C46201162E8808
         apis:
@@ -25,19 +25,22 @@ dows:
           saveOperateRecordData: /api/OpenData/SaveOperateRecordData
         envs:
           - name: test
-            host: https://testweb.hnilab.com/
+            host: https://testweb.hnilab.com
             port:
             username:
             token:
           - name: prd
-            host: https://www.hnilab.com/
+            host: https://www.hnilab.com
             port:
             username:
             token:
 
+
+
+
       - id: hnilab
         type: rest
-        channel: gpm.findsoft
+        channel: findsoft
         enable: false
         env: test
         appId:
@@ -61,7 +64,7 @@ dows:
 
       - id: hnilab
         type: jdbc
-        channel: gpm-findsoft
+        channel: findsoft
         enable: false
         env: test
         appId:

@@ -6,7 +6,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.jayway.jsonpath.JsonPath;
 import org.dows.ods.biz.*;
-import org.dows.ods.api.SchoolInstanceException;
+import org.dows.ods.biz.SchoolInstanceException;
 import org.dows.ods.biz.util.*;
 import org.dows.ods.bo.JsonConfig;
 import org.dows.ods.entity.*;

@@ -8,7 +8,6 @@
         <version>20220701-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>ods-demo</artifactId>
 
 
@@ -19,11 +18,27 @@
             <version>20220701-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
+<!--        <dependency>
             <groupId>org.dows.saas</groupId>
             <artifactId>ods-config</artifactId>
             <version>20220701-SNAPSHOT</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+
     </dependencies>
 
     <build>

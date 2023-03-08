@@ -27,7 +27,7 @@ import java.util.Map;
  * host: https://www.hnilab.com/
  */
 @Data
-//@ConfigurationProperties("dows.ods")
+@ConfigurationProperties("dows.ods")
 public class ChannelProperties {
 //    private String env;
 //    private String appId;
@@ -37,7 +37,7 @@ public class ChannelProperties {
 //
 //    private List<Env> envs;
     private List<Pointcut> pointcuts;
-    private List<ChannelSetting> channelSettings;//channels;//endpointMap
+    private List<ChannelSetting> endpoints;//channels;//endpointMap
 
 //    private final Map<String,ChannelSetting> channels = new HashMap<>();
 //
@@ -84,6 +84,18 @@ public class ChannelProperties {
         private String formMethod;
         private String toMethod;
         private Boolean enable;
+        private String env;
+
+        public String getKey(String methodName){
+            String[] split = methodName.split("://");
+            return this.getEnv()+":"+split[0];
+        }
+
+        public String getVal(String methodName){
+            String[] split = methodName.split("://");
+            return split[1];
+        }
+
     }
 
 

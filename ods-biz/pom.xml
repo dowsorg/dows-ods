@@ -16,10 +16,10 @@
             <groupId>org.dows.saas</groupId>
             <version>20220701-SNAPSHOT</version>
         </dependency>
-<!--        <dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>-->
+        </dependency>
     </dependencies>
 
 </project>

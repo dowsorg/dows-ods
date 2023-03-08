@@ -3,7 +3,6 @@ package org.dows.ods.client;
 import cn.hutool.json.JSONUtil;
 import org.dows.framework.api.Response;
 import org.dows.ods.api.*;
-import org.dows.ods.biz.util.DataSourceManager;
 import org.dows.ods.channel.hnilab.HnilabConfig;
 import org.springframework.web.client.RestTemplate;
 
