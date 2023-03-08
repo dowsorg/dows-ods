@@ -23,7 +23,7 @@ public class HnilabApi implements ChannelApi {
     private String getUserInfo;
     private String saveOperateRecordData;
 
-    public static Map<String, Field> getFieldMap() {
+    public Map<String, Field> getFieldMap() {
         return fieldMap;
     }
 

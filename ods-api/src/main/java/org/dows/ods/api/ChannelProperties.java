@@ -1,6 +1,7 @@
 package org.dows.ods.api;
 
 import lombok.Data;
+import org.springframework.aop.Pointcut;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.annotation.PostConstruct;
@@ -38,28 +39,37 @@ public class ChannelProperties {
     private List<Pointcut> pointcuts;
     private List<ChannelSetting> channelSettings;//channels;//endpointMap
 
-    private final Map<String,ChannelSetting> channels = new HashMap<>();
-
-    @PostConstruct
-    public void init(){
-        for (Pointcut pointcut : pointcuts) {
-            List<Method> methods = pointcut.getMethods();
-            for (Method method : methods) {
-                for (ChannelSetting channelSetting : channelSettings) {
-                    if(method.getEndpointId().equals(channelSetting.getId())){
-                        String key = channelSetting.getId()+"#"+method.getName();
-                        channels.put(key,channelSetting);
-                    }
-                }
-            }
-        }
-    }
+//    private final Map<String,ChannelSetting> channels = new HashMap<>();
+//
+//    @PostConstruct
+//    public void init(){
+////        for (Pointcut pointcut : pointcuts) {
+////            List<Method> methods = pointcut.getMethods();
+////            for (Method method : methods) {
+//                for (ChannelSetting channelSetting : channelSettings) {
+////                    if(method.getEndpointId().equals(channelSetting.getId())){
+////                        String key = channelSetting.getId()+"#"+method.getName();
+//                        channels.put(channelSetting.getId(),channelSetting);
+////                    }
+//                }
+////            }
+////        }
+//    }
 
 
     @Data
     public static class Pointcut {
         private Class clazz;
         private List<Method> methods;
+
+        public Method getMethod(String name){
+            for (Method method : methods) {
+                if(method.getName().equals(name)){
+                    return method;
+                }
+            }
+            return null;
+        }
     }
 
     /**
@@ -71,6 +81,8 @@ public class ChannelProperties {
     public static class Method {
         private String endpointId;
         private String name;
+        private String formMethod;
+        private String toMethod;
         private Boolean enable;
     }
 

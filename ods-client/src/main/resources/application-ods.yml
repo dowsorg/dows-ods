@@ -6,14 +6,14 @@ dows:
         methods:
           - enable: true
             name: completeExp
-            formMethod: getExperimentRestult
-            toMethod: saveOperateRecordData
+            formMethod: rest://getExperimentRestult
+            toMethod: jdbc://saveOperateRecordData
             endpointId: hnilab
     # 通道名端点配置
     endpoints:
       - id: hnilab
         channel: hnilab
-        type: http
+        type: rest
         enable: false
         env: test
         appId: 3dfe80096e234a3798d05d3f0bd6610e01a1e53b855a4e0b94c36edec31b5217
@@ -36,7 +36,7 @@ dows:
             token:
 
       - id: hnilab
-        type: http
+        type: rest
         channel: gpm.findsoft
         enable: false
         env: test
@@ -49,15 +49,15 @@ dows:
           saveOperateRecordData:
         envs:
           - name: test
-            host: http://gpm.findsoft.com/register
-            port: 3306
-            username: root
-            token: root
+            host: http://gpm.findsoft.com
+            port:
+            username:
+            token:
           - name: prd
-            host: http://gpm.findsoft.com/register
-            port: 3306
-            username: root
-            token: root
+            host: http://gpm.findsoft.com
+            port:
+            username:
+            token:
 
       - id: hnilab
         type: jdbc
@@ -68,7 +68,6 @@ dows:
         appSecret:
         apis:
           getExperimentRestult: sql://select exp_name as projectName, from experiment_result where stu_id=:stuId and exp_id=:exp_id
-          #getOperateStep: sql://select exp_name as  from experiment_result where stu_id=:stuId and exp_id=:exp_id
         envs:
           - name: test
             host: jdbc:mysql://192.168.1.60:3306/dows_ods?serverTimezone=GMT%2B8&autoReconnect=true&allowMultiQueries=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false

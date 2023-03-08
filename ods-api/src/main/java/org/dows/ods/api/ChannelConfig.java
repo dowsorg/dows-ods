@@ -8,5 +8,5 @@ public interface ChannelConfig {
     String getChannelName();
 
     // 获取数据源类型
-    String getDatasourceType();
+    //String getDatasourceType();
 }

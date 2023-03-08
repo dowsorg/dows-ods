@@ -1,6 +1,6 @@
 package org.dows.ods.biz.util;
 
-import org.dows.ods.api.exception.SchoolInstanceException;
+import org.dows.ods.api.SchoolInstanceException;
 import org.dows.ods.entity.SchoolInstance;
 import org.dows.ods.vo.SchoolInstanceCreateVO;
 import org.springframework.util.StringUtils;

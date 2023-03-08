@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dows.framework.api.exceptions.BizException;
-import org.dows.ods.api.exception.SchoolInstanceException;
+import org.dows.ods.api.SchoolInstanceException;
 import org.dows.ods.biz.util.SchoolInstanceUtil;
 import org.dows.ods.entity.SchoolInstance;
 import org.dows.ods.service.SchoolInstanceService;
