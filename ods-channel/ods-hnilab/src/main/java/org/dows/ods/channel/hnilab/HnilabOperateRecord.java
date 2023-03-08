@@ -32,7 +32,7 @@ import lombok.Data;
  * "evaluation": "评价",
  */
 @Data
-public class OperateRecord {
+public class HnilabOperateRecord {
     //接入平台分配的唯一编号 String 是
     private String appid;
     // 做实验平台生成的 ticket String 是
@@ -58,5 +58,5 @@ public class OperateRecord {
     //实验报告 非必填一次操作只有一个实验报告，实验报告说明见下方实验报告
     private Integer projectReport;
     // 实验步骤 是 见下方实验步骤
-    private ExperimentStep steps;
+    private HnilabExperimentStep steps;
 }

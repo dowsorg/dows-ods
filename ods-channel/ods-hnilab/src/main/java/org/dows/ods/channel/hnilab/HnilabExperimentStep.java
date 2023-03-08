@@ -3,7 +3,7 @@ package org.dows.ods.channel.hnilab;
 import lombok.Data;
 
 @Data
-public class ExperimentStep {
+public class HnilabExperimentStep {
     //步骤号 string 是
     private String stepCode;
     //步骤名称 string 是

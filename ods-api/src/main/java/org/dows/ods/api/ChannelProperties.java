@@ -42,12 +42,12 @@ public class ChannelProperties {
 
     @PostConstruct
     public void init(){
-        for (ChannelProperties.Pointcut pointcut : pointcuts) {
+        for (Pointcut pointcut : pointcuts) {
             List<Method> methods = pointcut.getMethods();
             for (Method method : methods) {
                 for (ChannelSetting channelSetting : channelSettings) {
                     if(method.getEndpointId().equals(channelSetting.getId())){
-                        String key = pointcut.getClazz()+"#"+method.getName();
+                        String key = channelSetting.getId()+"#"+method.getName();
                         channels.put(key,channelSetting);
                     }
                 }

@@ -3,6 +3,7 @@ package org.dows.ods.api;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class ChannelSetting {
@@ -13,7 +14,8 @@ public class ChannelSetting {
     private String appId;
     private String appSecret;
 
-    private ChannelApi hnilabApi;
+    private Map<String,String> apis;
 
-    private List<ChannelEnv> channelEnvs;
+    private List<ChannelEnv> envs;
+
 }

@@ -2,14 +2,17 @@
 dows:
   ods:
     pointcuts:
-      - clazz: org.dows.gpm.Test
+      - clazz: org.dows.ods.demo.DemoBiz
         methods:
           - enable: true
-            name: getToken
-            endpointId: hljdbc
+            name: completeExp
+            formMethod: getExperimentRestult
+            toMethod: saveOperateRecordData
+            endpointId: hnilab
     # 通道名端点配置
     endpoints:
-      - id: lnilab
+      - id: hnilab
+        channel: hnilab
         type: http
         enable: false
         env: test
@@ -17,8 +20,8 @@ dows:
         appSecret: 6CE2715036F894F8F48BD85C1335D74D0083A36133C6282B26610E2DB7ED89A3A08F286AF4FF5E620CAE48B8CCD09B5B3657E364087C2F22285BEDDE00C8A95799C46201162E8808
         apis:
           checkToken: get:/api/OpenData/CheckToken
-          getToken: /api/OpenData/GetToken
-          getUserInfo: /api/OpenData/GetUserInfo
+          getToken: post:/api/OpenData/GetToken
+          getUserInfo: put:/api/OpenData/GetUserInfo
           saveOperateRecordData: /api/OpenData/SaveOperateRecordData
         envs:
           - name: test
@@ -32,17 +35,40 @@ dows:
             username:
             token:
 
-      - id: lnilab
-        type: jdbc
+      - id: hnilab
+        type: http
+        channel: gpm.findsoft
         enable: false
         env: test
-        appId: 3dfe80096e234a3798d05d3f0bd6610e01a1e53b855a4e0b94c36edec31b5217
-        appSecret: 6CE2715036F894F8F48BD85C1335D74D0083A36133C6282B26610E2DB7ED89A3A08F286AF4FF5E620CAE48B8CCD09B5B3657E364087C2F22285BEDDE00C8A95799C46201162E8808
+        appId:
+        appSecret:
         apis:
-          checkToken: insert:table1
-          getToken: update:table2
-          getUserInfo: delete:table3
-          saveOperateRecordData: select:table4
+          checkToken:
+          getToken:
+          getUserInfo:
+          saveOperateRecordData:
+        envs:
+          - name: test
+            host: http://gpm.findsoft.com/register
+            port: 3306
+            username: root
+            token: root
+          - name: prd
+            host: http://gpm.findsoft.com/register
+            port: 3306
+            username: root
+            token: root
+
+      - id: hnilab
+        type: jdbc
+        channel: gpm-findsoft
+        enable: false
+        env: test
+        appId:
+        appSecret:
+        apis:
+          getExperimentRestult: sql://select exp_name as projectName, from experiment_result where stu_id=:stuId and exp_id=:exp_id
+          #getOperateStep: sql://select exp_name as  from experiment_result where stu_id=:stuId and exp_id=:exp_id
         envs:
           - name: test
             host: jdbc:mysql://192.168.1.60:3306/dows_ods?serverTimezone=GMT%2B8&autoReconnect=true&allowMultiQueries=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false

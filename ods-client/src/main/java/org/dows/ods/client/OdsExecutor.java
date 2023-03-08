@@ -1,5 +1,6 @@
 package org.dows.ods.client;
 
+import cn.hutool.json.JSONUtil;
 import org.dows.framework.api.Response;
 import org.dows.ods.api.ChannelConfig;
 import org.dows.ods.api.OdsResponse;
@@ -9,6 +10,7 @@ import org.dows.ods.biz.util.DataSourceManager;
 import org.dows.ods.channel.hnilab.HnilabConfig;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.Connection;
 import java.util.Map;
 
 public class OdsExecutor {
@@ -24,11 +26,22 @@ public class OdsExecutor {
         if (type.equals("jdbc")) {
             // todo 根据apiUri 动态创建数据源,并执行
             // todo 根据apiUri 执行http 方式
-            if(!apiUri.startsWith("jdbc://")){
-                throw new RuntimeException("协议错误");
+            if(apiUri.startsWith("sql://")){
+                //Connection connection = DataSourceManager.getConnection();
+                //throw new RuntimeException("协议错误");
+                //JSONUtil.toBean(odsResponse.getBizJson());
+                //
+               String sql =  apiUri.split("sql://")[1];
+               // todo 执行form 方法
+
+
+               // todo 执行to 方法
+
             }
 //            DataSourceManager.getConnection();
-
+            if(!apiUri.startsWith("table://")){
+                throw new RuntimeException("协议错误");
+            }
 
 
 

@@ -6,6 +6,7 @@ import org.dows.framework.api.util.YamlPropertySourceFactory;
 import org.dows.ods.api.ChannelConfig;
 import org.dows.ods.api.ChannelProperties;
 import org.dows.ods.channel.hnilab.HnilabConfig;
+import org.springframework.aop.ClassFilter;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.NameMatchMethodPointcut;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -39,16 +40,23 @@ public class OdsConfig {
     @Bean("odsPointcut")
     NameMatchMethodPointcut nameMatchMethodPointcut(){
         NameMatchMethodPointcut nameMatchMethodPointcut = new NameMatchMethodPointcut();
-        List<ChannelProperties.Pointcut> pointcuts = channelProperties.getPointcuts();
+        List<ChannelProperties.Pointcut> pointcuts = channelProperties().getPointcuts();
         for (ChannelProperties.Pointcut pointcut : pointcuts) {
-            // todo 这里需要重写ClassFilter
-            nameMatchMethodPointcut.setClassFilter(clazz -> clazz.equals(pointcut.getClazz()));
             List<ChannelProperties.Method> methods = pointcut.getMethods();
             List<String> collect = methods.stream().map(ChannelProperties.Method::getName).collect(Collectors.toList());
             for (String s : collect) {
                 nameMatchMethodPointcut.addMethodName(s);
             }
         }
+        // todo 这里需要重写ClassFilter
+        nameMatchMethodPointcut.setClassFilter(clazz -> {
+            List<Class> collect = channelProperties().getPointcuts().stream()
+                    .map(ChannelProperties.Pointcut::getClazz).collect(Collectors.toList());
+            if(collect.contains(clazz)){
+                return true;
+            }
+            return false;
+        });
         return nameMatchMethodPointcut;
     }
 

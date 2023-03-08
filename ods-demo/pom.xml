@@ -11,10 +11,19 @@
 
     <artifactId>ods-demo</artifactId>
 
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.dows.saas</groupId>
+            <artifactId>ods-client</artifactId>
+            <version>20220701-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dows.saas</groupId>
+            <artifactId>ods-config</artifactId>
+            <version>20220701-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

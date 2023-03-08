@@ -4,12 +4,7 @@ package org.dows.ods.channel.hnilab;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.dows.ods.api.*;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import javax.annotation.PostConstruct;
 import java.lang.reflect.Field;
@@ -22,7 +17,7 @@ import java.util.Set;
 //@EnableConfigurationProperties(ChannelProperties.class)
 @Configuration("hnilab")
 public class HnilabConfig implements ChannelConfig {
-    private static final Map<String, ChannelApi> hnilabApiMap = new HashMap<>();
+    private static final Map<String, ChannelApi> channelEnvApiMap = new HashMap<>();
     @Getter
     private final ChannelProperties channelProperties;
 
@@ -47,18 +42,19 @@ public class HnilabConfig implements ChannelConfig {
         Map<String, Field> fieldMap = HnilabApi.getFieldMap();
         Map<String, ChannelSetting> channels = channelProperties.getChannels();
         ChannelSetting channelSetting = channels.get(channel);
-        List<ChannelEnv> envs = channelSetting.getChannelEnvs();
+
+        List<ChannelEnv> envs = channelSetting.getEnvs();
 
         for (ChannelEnv env : envs) {
             ChannelApi hnilabApi = extracted(fieldMap, env.getHost());
-            hnilabApiMap.put(env.getName(), hnilabApi);
+            channelEnvApiMap.put(channel+":"+env.getName(), hnilabApi);
         }
     }
 
     public ChannelApi getChannelApi() {
         Map<String, ChannelSetting> channels = channelProperties.getChannels();
         ChannelSetting channelSetting = channels.get(channel);
-        ChannelApi hnilabApi = hnilabApiMap.get(channelSetting.getEnv());
+        ChannelApi hnilabApi = channelEnvApiMap.get(channel+":"+channelSetting.getEnv());
         if (hnilabApi == null) {
             throw new RuntimeException("不存在该环境对应的接口配置，请检查环境配置");
         }
@@ -79,15 +75,16 @@ public class HnilabConfig implements ChannelConfig {
     private ChannelApi extracted(Map<String, Field> fieldMap, String host) {
         Map<String, ChannelSetting> channels = channelProperties.getChannels();
         ChannelSetting channelSetting = channels.get(channel);
-
-        ChannelApi hnilabApi = channelSetting.getHnilabApi();
+        HnilabApi hnilabApi = new HnilabApi();
+        Map<String, String> apis = channelSetting.getApis();
+        //ChannelApi hnilabApi = channelSetting.getChannelApi();
         String appId = channelSetting.getAppId();
         String appSecret = channelSetting.getAppSecret();
         Set<String> fieldNames = fieldMap.keySet();
         for (String field : fieldNames) {
             Field field1 = fieldMap.get(field);
             try {
-                String uri = (String) field1.get(hnilabApi);
+                String uri = apis.get(field);
                 String url = host + uri + "?appId = " + appId + "&appSecret = " + appSecret;
                 field1.setAccessible(true);
                 // 动态修改
