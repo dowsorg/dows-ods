@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Slf4j
 @Service
-public class DemoBiz {
+public class DemoBiz<T> {
 
 
     public OdsResponse completeExp(Object parmas){

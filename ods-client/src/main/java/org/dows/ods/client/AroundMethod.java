@@ -21,6 +21,10 @@ public class AroundMethod implements MethodInterceptor {
         this.channelConfigMap = channelConfigMap;
     }
 
+    public void setChannelSettingMap(Map<String, ChannelSetting> channelSettingMap) {
+        this.channelSettingMap = channelSettingMap;
+    }
+
     public void setPointcut(Map<String, ChannelProperties.Pointcut> pointcutMap) {
         this.pointcutMap = pointcutMap;
     }
@@ -37,16 +41,11 @@ public class AroundMethod implements MethodInterceptor {
             // 获取数据
             Object result = methodInvocation.proceed();
             // todo 上报处理 OdsResponse 返回值应为该类型，if 判断一下，如果是可强转
-            Class<?> returnType = methodInvocation.getMethod().getReturnType();
-            OdsResponse odsResponse = (OdsResponse)result;
-
             Class<?> declaringClass = methodInvocation.getMethod().getDeclaringClass();
             String methodName = methodInvocation.getMethod().getName();
-            String fullMethodName = declaringClass+"."+methodName;
-            ChannelProperties.Pointcut pointcut = pointcutMap.get(fullMethodName);
+
+            ChannelProperties.Pointcut pointcut = pointcutMap.get(declaringClass+"."+methodName);
             ChannelProperties.Method method = pointcut.getMethod(methodName);
-
-
             String formMethodKey = method.getKey(method.getFormMethod());
             String toMethodKey = method.getKey(method.getToMethod());
 
@@ -56,16 +55,20 @@ public class AroundMethod implements MethodInterceptor {
             String formUrl = formChannelApi.getApiUriByMethodName(method.getVal(method.getFormMethod()));
             String toUrl = toChannelApi.getApiUriByMethodName(method.getVal(method.getToMethod()));
 
-            // // todo 通过该端点上传数据 该端点可能是 jdbc 也可能是 http
-            //String channel = method.getEndpointId();
-            // todo 后期可异步，先实现channelProperties
-            //ChannelConfig channelConfig = channelConfigMap.get(channel);
 
-            //ChannelSetting channelSetting = channelSettingMap.get(channel);
+            ChannelSetting channelSetting = channelSettingMap.get(method.getChannelType(method.getFormMethod()));
+            if(toUrl.equals("post:")){
 
-            //ChannelApi channelApi = channelEnvApiMap.get(channelSetting.getEnv() + ":" + channelSetting.getId());
+                String appId = channelSetting.getAppId();
+                String appSecret = channelSetting.getAppSecret();
 
-            //OdsExecutor.exec(method,channelApi,odsResponse);
+                String url = toUrl.substring(toUrl.indexOf("post:"));
+                OdsExecutor.post(method,url,result);
+            }
+
+            // todo 通过该端点上传数据 该端点可能是 jdbc 也可能是 http,后期可异步，先实现channelProperties
+
+            // OdsExecutor.exec(method,channelApi,odsResponse);
             log.info("around method : after ");
             return result;
         } catch (IllegalArgumentException e) {

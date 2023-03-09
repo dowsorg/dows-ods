@@ -3,21 +3,20 @@ package org.dows.ods.channel.hnilab;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import okhttp3.OkHttpClient;
 import org.dows.ods.api.*;
+import org.dows.ods.channel.hnilab.client.UrlInterceptor;
+import org.dows.ods.channel.hnilab.client.HnilabEndpoint;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
-import javax.annotation.PostConstruct;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @RequiredArgsConstructor
 //@EnableConfigurationProperties(ChannelProperties.class)
-@Configuration("hnilab")
+@Configuration
 public class HnilabConfig implements ChannelConfig {
-    private static final Map<String, ChannelApi> channelEnvApiMap = new HashMap<>();
     @Getter
     private final ChannelProperties channelProperties;
 
@@ -28,50 +27,45 @@ public class HnilabConfig implements ChannelConfig {
         return channel;
     }
 
-//    @Override
-//    public String getDatasourceType() {
-//        ChannelSetting channelSetting = channelProperties.getChannels().get(channel);
-//        if(channelSetting != null) {
-//            return channelSetting.getType();
-//        }
-//        return null;
-//    }
-
-//    @PostConstruct
-//    public void init() {
-//        Map<String, Field> fieldMap = HnilabApi.getFieldMap();
-//        Map<String, ChannelSetting> channels = channelProperties.getChannels();
-//        ChannelSetting channelSetting = channels.get(channel);
-//
-//        List<ChannelEnv> envs = channelSetting.getEnvs();
-//
-//        for (ChannelEnv env : envs) {
-//            ChannelApi hnilabApi = extracted(fieldMap, env.getHost());
-//            channelEnvApiMap.put(channel+":"+env.getName(), hnilabApi);
-//        }
-//    }
 
     public ChannelApi getChannelApi() {
-//        Map<String, ChannelSetting> channels = channelProperties.getChannels();
-//        ChannelSetting channelSetting = channels.get(channel);
-//        ChannelApi hnilabApi = channelEnvApiMap.get(channel+":"+channelSetting.getEnv());
-//        if (hnilabApi == null) {
-//            throw new RuntimeException("不存在该环境对应的接口配置，请检查环境配置");
-//        }
         return new HnilabApi();
     }
 
+    @Bean("testHnlib")
+    public HnilabEndpoint testHnilabEndpoint() {
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
+        okHttpClientBuilder.addInterceptor(new UrlInterceptor());
 
+        OkHttpClient okHttpClient = okHttpClientBuilder.build();
+        okHttpClient.dispatcher().setMaxRequestsPerHost(20);
+        okHttpClient.dispatcher().setMaxRequests(256);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://testweb.hnilab.com")
+                .client(okHttpClient)
+                .addConverterFactory(JacksonConverterFactory.create())
+                .build();
 
-//    public static ChannelApi getHnilabApi(String env) {
-//        ChannelApi hnilabApi = hnilabApiMap.get(env);
-//        if (hnilabApi == null) {
-//            throw new RuntimeException("不存在该环境对应的接口配置，请检查环境配置");
-//        }
-//        return hnilabApi;
-//    }
+        return retrofit.create(HnilabEndpoint.class);
+    }
 
+    @Bean("prdHnlib")
+    public HnilabEndpoint prdHnilabEndpoint() {
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
+        okHttpClientBuilder.addInterceptor(new UrlInterceptor());
 
+        OkHttpClient okHttpClient = okHttpClientBuilder.build();
+        okHttpClient.dispatcher().setMaxRequestsPerHost(20);
+        okHttpClient.dispatcher().setMaxRequests(256);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://www.hnilab.com")
+                .client(okHttpClient)
+                .addConverterFactory(JacksonConverterFactory.create())
+                .build();
+
+        return retrofit.create(HnilabEndpoint.class);
+    }
 
 
 }

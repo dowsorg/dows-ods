@@ -1,5 +1,7 @@
 package org.dows.ods.client;
 
+import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
 import org.dows.framework.api.Response;
 import org.dows.ods.api.*;
@@ -13,6 +15,13 @@ public class OdsExecutor {
 
 
     public static Response exec(ChannelProperties.Method method,ChannelApi channelApi, OdsResponse odsResponse) {
+
+        String formMethod = method.getFormMethod();
+        String channelClient = formMethod.substring(0, formMethod.indexOf(":"));
+        String methodName = formMethod.split("://")[1];
+        Object bean = SpringUtil.getBean(channelClient);
+
+        ReflectUtil.invoke(bean,methodName,null);
         // 动态根据环境获取对应的接口对象，包含了环境对应的api
         // 获取接口uri 有可能是http 也有可能是 jdbc
         //String apiUri = channelApi.getApiUriByMethodName(odsResponse.getMethod());
@@ -69,5 +78,8 @@ public class OdsExecutor {
 //            }
 //        }
         return Response.ok();
+    }
+
+    public static void post(ChannelProperties.Method method, String url, Object result) {
     }
 }

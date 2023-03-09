@@ -33,14 +33,22 @@ public class OdsConfig {
     private final ChannelProperties channelProperties;
 
     // 端点通道对应的通道配置 key:端点名，值端点对应的配置
-    //private final Map<String, ChannelSetting> channelSettingMap = new HashMap<>();
+    private final Map<String, ChannelSetting> channelSettingMap = new HashMap<>();
     private final Map<String, ChannelApi> channelEnvApiMap = new HashMap<>();
     private final Map<String, ChannelProperties.Pointcut> pointcutMap = new HashMap<>();
     @PostConstruct
     public void init(){
+        Map<String,ChannelConfig> channelConfigMap1 = new HashMap<>();
+        channelConfigMap.forEach((k,v)->{
+            String channelName = v.getChannelName();
+            channelConfigMap1.put(channelName,v);
+        });
         for (ChannelSetting channelSetting : channelProperties.getEndpoints()) {
-            //channelSettingMap.put(channelSetting.getId(),channelSetting);
-            ChannelConfig channelConfig = channelConfigMap.get(channelSetting.getId());
+            channelSettingMap.put(channelSetting.getChannel()+":"+channelSetting.getType(),channelSetting);
+            /**
+             * todo 后期 ChannelConfig channelConfig = channelConfigMap1.get(channelSetting.getChannel());
+             */
+            ChannelConfig channelConfig = channelConfigMap1.get(channelSetting.getId());
             if(channelConfig == null){
                 continue;
             }
@@ -138,6 +146,7 @@ public class OdsConfig {
         AroundMethod aroundMethod = new AroundMethod();
         aroundMethod.setChannelConfig(channelConfigMap);
         aroundMethod.setPointcut(pointcutMap);
+        aroundMethod.setChannelSettingMap(channelSettingMap);
         aroundMethod.setChannelEnvApiMap(channelEnvApiMap);
         return aroundMethod;
     }

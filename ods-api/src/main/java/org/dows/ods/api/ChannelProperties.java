@@ -29,33 +29,8 @@ import java.util.Map;
 @Data
 @ConfigurationProperties("dows.ods")
 public class ChannelProperties {
-//    private String env;
-//    private String appId;
-//    private String appSecret;
-//
-//    private HnilabApi hnilabApi;
-//
-//    private List<Env> envs;
     private List<Pointcut> pointcuts;
-    private List<ChannelSetting> endpoints;//channels;//endpointMap
-
-//    private final Map<String,ChannelSetting> channels = new HashMap<>();
-//
-//    @PostConstruct
-//    public void init(){
-////        for (Pointcut pointcut : pointcuts) {
-////            List<Method> methods = pointcut.getMethods();
-////            for (Method method : methods) {
-//                for (ChannelSetting channelSetting : channelSettings) {
-////                    if(method.getEndpointId().equals(channelSetting.getId())){
-////                        String key = channelSetting.getId()+"#"+method.getName();
-//                        channels.put(channelSetting.getId(),channelSetting);
-////                    }
-//                }
-////            }
-////        }
-//    }
-
+    private List<ChannelSetting> endpoints;
 
     @Data
     public static class Pointcut {
@@ -96,9 +71,10 @@ public class ChannelProperties {
             return split[1];
         }
 
+        public String getChannelType(String methodName){
+            String[] split = methodName.split("://");
+            return split[0];
+        }
     }
-
-
-
 
 }
